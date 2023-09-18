@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "df-earthquake-project"
+		},
+		"ls_sink_dl_http_usgs_accountKey": {
+			"value": ""
+		},
+		"ls_sink_hist_data_accountKey": {
+			"value": ""
+		},
+		"ls_source_hist_data_connectionString": {
+			"value": ""
+		},
+		"ls_raw_usgs_properties_typeProperties_url": {
+			"value": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/"
+		},
+		"ls_sink_dl_http_usgs_properties_typeProperties_url": {
+			"value": "https://dlearthquakeproject.dfs.core.windows.net/"
+		},
+		"ls_sink_hist_data_properties_typeProperties_url": {
+			"value": "https://dlearthquakeproject.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
