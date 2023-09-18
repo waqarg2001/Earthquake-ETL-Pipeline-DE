@@ -1,0 +1,11 @@
+{
+	"name": "ls_source_historical_data",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"containerUri": "https://saearthquakeproject.blob.core.windows.net/raw",
+			"authenticationType": "Anonymous"
+		}
+	}
+}

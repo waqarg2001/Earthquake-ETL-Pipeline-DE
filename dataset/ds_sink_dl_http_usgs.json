@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"folderPath": "usgs_data",
-				"fileSystem": "processed"
+				"fileSystem": "raw"
 			}
 		},
 		"schema": {}

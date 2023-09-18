@@ -1,0 +1,116 @@
+{
+	"name": "ds_source_hist_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_source_hist_data",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Significant Earthquake Dataset 1900-2023.csv",
+				"container": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Time",
+				"type": "String"
+			},
+			{
+				"name": "Place",
+				"type": "String"
+			},
+			{
+				"name": "Latitude",
+				"type": "String"
+			},
+			{
+				"name": "Longitude",
+				"type": "String"
+			},
+			{
+				"name": "Depth",
+				"type": "String"
+			},
+			{
+				"name": "Mag",
+				"type": "String"
+			},
+			{
+				"name": "MagType",
+				"type": "String"
+			},
+			{
+				"name": "nst",
+				"type": "String"
+			},
+			{
+				"name": "gap",
+				"type": "String"
+			},
+			{
+				"name": "dmin",
+				"type": "String"
+			},
+			{
+				"name": "rms",
+				"type": "String"
+			},
+			{
+				"name": "net",
+				"type": "String"
+			},
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "Updated",
+				"type": "String"
+			},
+			{
+				"name": "Prop_14",
+				"type": "String"
+			},
+			{
+				"name": "Type",
+				"type": "String"
+			},
+			{
+				"name": "horizontalError",
+				"type": "String"
+			},
+			{
+				"name": "depthError",
+				"type": "String"
+			},
+			{
+				"name": "magError",
+				"type": "String"
+			},
+			{
+				"name": "magNst",
+				"type": "String"
+			},
+			{
+				"name": "status",
+				"type": "String"
+			},
+			{
+				"name": "locationSource",
+				"type": "String"
+			},
+			{
+				"name": "magSource",
+				"type": "String"
+			}
+		]
+	}
+}
