@@ -1,0 +1,18 @@
+{
+	"name": "ds_source_http_usgs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_raw_usgs",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "4.5_week.geojson"
+			}
+		},
+		"schema": {}
+	}
+}
