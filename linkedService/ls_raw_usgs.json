@@ -1,0 +1,12 @@
+{
+	"name": "ls_raw_usgs",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
