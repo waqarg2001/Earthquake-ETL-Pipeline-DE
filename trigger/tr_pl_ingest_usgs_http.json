@@ -1,0 +1,24 @@
+{
+	"name": "tr_pl_ingest_usgs_http",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_ingest_usgs_to_dl",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2023-09-19T12:00:00",
+				"timeZone": "Pakistan Standard Time"
+			}
+		}
+	}
+}
