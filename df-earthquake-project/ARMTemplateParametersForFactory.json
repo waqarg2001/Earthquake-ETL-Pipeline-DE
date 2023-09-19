@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "df-earthquake-project"
 		},
+		"ls_databricks_usgs_data_transformation_accessToken": {
+			"value": ""
+		},
 		"ls_sink_dl_http_usgs_accountKey": {
 			"value": ""
 		},
@@ -13,6 +16,9 @@
 		},
 		"ls_source_hist_data_connectionString": {
 			"value": ""
+		},
+		"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
+			"value": "0919-033905-zhvlnaw7"
 		},
 		"ls_raw_usgs_properties_typeProperties_url": {
 			"value": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/"

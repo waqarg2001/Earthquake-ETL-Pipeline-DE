@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "df-earthquake-project"
 		},
+		"ls_databricks_usgs_data_transformation_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_databricks_usgs_data_transformation'"
+		},
 		"ls_sink_dl_http_usgs_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_sink_dl_http_usgs'"
@@ -18,6 +22,10 @@
 		"ls_source_hist_data_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_source_hist_data'"
+		},
+		"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0919-033905-zhvlnaw7"
 		},
 		"ls_raw_usgs_properties_typeProperties_url": {
 			"type": "string",
@@ -58,6 +66,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ls_databricks_usgs_data_transformation_accessToken": {
+						"value": "[parameters('ls_databricks_usgs_data_transformation_accessToken')]"
+					},
 					"ls_sink_dl_http_usgs_accountKey": {
 						"value": "[parameters('ls_sink_dl_http_usgs_accountKey')]"
 					},
@@ -66,6 +77,9 @@
 					},
 					"ls_source_hist_data_connectionString": {
 						"value": "[parameters('ls_source_hist_data_connectionString')]"
+					},
+					"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId')]"
 					},
 					"ls_raw_usgs_properties_typeProperties_url": {
 						"value": "[parameters('ls_raw_usgs_properties_typeProperties_url')]"
