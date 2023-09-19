@@ -48,6 +48,33 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "execute data transformation usgs data",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "copy data from usgs to data lake",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/greedygenie01@gmail.com/earthquake-etl-pipeline/databricks notebooks/2. Transformations/1. Transforming USGS data"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_usgs_data_transformation",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
