@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'ls_databricks_usgs_data_transformation'"
 		},
+		"ls_dl_src_copy_to_sql_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_dl_src_copy_to_sql'"
+		},
+		"ls_hist_data_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_hist_data'"
+		},
 		"ls_sink_dl_http_usgs_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_sink_dl_http_usgs'"
@@ -19,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_sink_hist_data'"
 		},
+		"ls_sink_processed_usgs_sql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_sink_processed_usgs_sql'"
+		},
 		"ls_source_hist_data_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_source_hist_data'"
@@ -26,6 +38,14 @@
 		"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "0919-033905-zhvlnaw7"
+		},
+		"ls_dl_src_copy_to_sql_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlearthquakeproject.dfs.core.windows.net/"
+		},
+		"ls_hist_data_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlearthquakeproject.dfs.core.windows.net/"
 		},
 		"ls_raw_usgs_properties_typeProperties_url": {
 			"type": "string",
@@ -69,17 +89,32 @@
 					"ls_databricks_usgs_data_transformation_accessToken": {
 						"value": "[parameters('ls_databricks_usgs_data_transformation_accessToken')]"
 					},
+					"ls_dl_src_copy_to_sql_accountKey": {
+						"value": "[parameters('ls_dl_src_copy_to_sql_accountKey')]"
+					},
+					"ls_hist_data_accountKey": {
+						"value": "[parameters('ls_hist_data_accountKey')]"
+					},
 					"ls_sink_dl_http_usgs_accountKey": {
 						"value": "[parameters('ls_sink_dl_http_usgs_accountKey')]"
 					},
 					"ls_sink_hist_data_accountKey": {
 						"value": "[parameters('ls_sink_hist_data_accountKey')]"
 					},
+					"ls_sink_processed_usgs_sql_connectionString": {
+						"value": "[parameters('ls_sink_processed_usgs_sql_connectionString')]"
+					},
 					"ls_source_hist_data_connectionString": {
 						"value": "[parameters('ls_source_hist_data_connectionString')]"
 					},
 					"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId')]"
+					},
+					"ls_dl_src_copy_to_sql_properties_typeProperties_url": {
+						"value": "[parameters('ls_dl_src_copy_to_sql_properties_typeProperties_url')]"
+					},
+					"ls_hist_data_properties_typeProperties_url": {
+						"value": "[parameters('ls_hist_data_properties_typeProperties_url')]"
 					},
 					"ls_raw_usgs_properties_typeProperties_url": {
 						"value": "[parameters('ls_raw_usgs_properties_typeProperties_url')]"

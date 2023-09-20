@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'ls_databricks_usgs_data_transformation'"
 		},
+		"ls_dl_src_copy_to_sql_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_dl_src_copy_to_sql'"
+		},
+		"ls_hist_data_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_hist_data'"
+		},
 		"ls_sink_dl_http_usgs_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_sink_dl_http_usgs'"
@@ -19,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_sink_hist_data'"
 		},
+		"ls_sink_processed_usgs_sql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_sink_processed_usgs_sql'"
+		},
 		"ls_source_hist_data_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_source_hist_data'"
@@ -26,6 +38,14 @@
 		"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "0919-033905-zhvlnaw7"
+		},
+		"ls_dl_src_copy_to_sql_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlearthquakeproject.dfs.core.windows.net/"
+		},
+		"ls_hist_data_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlearthquakeproject.dfs.core.windows.net/"
 		},
 		"ls_raw_usgs_properties_typeProperties_url": {
 			"type": "string",
@@ -58,6 +78,40 @@
 						"value": "[parameters('ls_databricks_usgs_data_transformation_accessToken')]"
 					},
 					"existingClusterId": "[parameters('ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_dl_src_copy_to_sql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_dl_src_copy_to_sql_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_dl_src_copy_to_sql_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_hist_data')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_hist_data_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_hist_data_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -107,6 +161,19 @@
 						"type": "SecureString",
 						"value": "[parameters('ls_sink_hist_data_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_sink_processed_usgs_sql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_sink_processed_usgs_sql_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -188,6 +255,69 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_sink_hist_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_sink_processed_usgs_sql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sink_processed_usgs_sql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "date",
+						"type": "date"
+					},
+					{
+						"name": "time_of_day",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "place_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "longitude",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 6
+					},
+					{
+						"name": "latitude",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 6
+					},
+					{
+						"name": "depth",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "magnitude",
+						"type": "decimal",
+						"precision": 4,
+						"scale": 2
+					},
+					{
+						"name": "title",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "earthquake_db",
+					"table": "usgs_data"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sink_processed_usgs_sql')]"
 			]
 		},
 		{
@@ -335,6 +465,186 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_sql_historical_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sink_processed_usgs_sql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Latitude",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 6
+					},
+					{
+						"name": "Longitude",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 6
+					},
+					{
+						"name": "Depth",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 2
+					},
+					{
+						"name": "Magnitude",
+						"type": "decimal",
+						"precision": 4,
+						"scale": 2
+					},
+					{
+						"name": "date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "time_of_day",
+						"type": "time",
+						"scale": 7
+					},
+					{
+						"name": "place_name",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "earthquake_db",
+					"table": "historical_data"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sink_processed_usgs_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_src_historical_processed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_hist_data",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "historical_data",
+						"fileSystem": "processed"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "Title",
+						"type": "UTF8"
+					},
+					{
+						"name": "Latitude",
+						"type": "UTF8"
+					},
+					{
+						"name": "Longitude",
+						"type": "UTF8"
+					},
+					{
+						"name": "Depth",
+						"type": "UTF8"
+					},
+					{
+						"name": "Magnitude",
+						"type": "UTF8"
+					},
+					{
+						"name": "date",
+						"type": "UTF8"
+					},
+					{
+						"name": "time_on_day",
+						"type": "UTF8"
+					},
+					{
+						"name": "place_name",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_hist_data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_src_processed_usgs_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dl_src_copy_to_sql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "*.parquet",
+						"folderPath": "usgs_data",
+						"fileSystem": "processed"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "date",
+						"type": "UTF8"
+					},
+					{
+						"name": "time_of_day",
+						"type": "UTF8"
+					},
+					{
+						"name": "place_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "longitude",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "latitude",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "depth",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "magnitude",
+						"type": "UTF8"
+					},
+					{
+						"name": "title",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dl_src_copy_to_sql')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_ingest_historical_data')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -399,6 +709,96 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "historical_data nb",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "copy data historical to dl",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Repos/greedygenie01@gmail.com/earthquake-etl-pipeline/databricks notebooks/2. Transformations/2. Transforming Historical Data"
+						},
+						"linkedServiceName": {
+							"referenceName": "ls_databricks_usgs_data_transformation",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Copy processed hist_data to sql",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "historical_data nb",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "historical_data",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "ParquetReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_src_historical_processed",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sql_historical_data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -409,7 +809,10 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_source_hist_data')]",
-				"[concat(variables('factoryId'), '/datasets/ds_sink_hist_data')]"
+				"[concat(variables('factoryId'), '/datasets/ds_sink_hist_data')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_databricks_usgs_data_transformation')]",
+				"[concat(variables('factoryId'), '/datasets/ds_src_historical_processed')]",
+				"[concat(variables('factoryId'), '/datasets/ds_sql_historical_data')]"
 			]
 		},
 		{
@@ -493,6 +896,71 @@
 							"referenceName": "ls_databricks_usgs_data_transformation",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "Copy usgs processed to sql database",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "execute data transformation usgs data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "usgs_data",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "ParquetReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table earthquake_db.usgs_data",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_src_processed_usgs_data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sink_processed_usgs_sql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -504,7 +972,9 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_source_http_usgs')]",
 				"[concat(variables('factoryId'), '/datasets/ds_sink_dl_http_usgs')]",
-				"[concat(variables('factoryId'), '/linkedServices/ls_databricks_usgs_data_transformation')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_databricks_usgs_data_transformation')]",
+				"[concat(variables('factoryId'), '/datasets/ds_src_processed_usgs_data')]",
+				"[concat(variables('factoryId'), '/datasets/ds_sink_processed_usgs_sql')]"
 			]
 		},
 		{

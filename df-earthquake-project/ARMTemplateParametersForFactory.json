@@ -8,10 +8,19 @@
 		"ls_databricks_usgs_data_transformation_accessToken": {
 			"value": ""
 		},
+		"ls_dl_src_copy_to_sql_accountKey": {
+			"value": ""
+		},
+		"ls_hist_data_accountKey": {
+			"value": ""
+		},
 		"ls_sink_dl_http_usgs_accountKey": {
 			"value": ""
 		},
 		"ls_sink_hist_data_accountKey": {
+			"value": ""
+		},
+		"ls_sink_processed_usgs_sql_connectionString": {
 			"value": ""
 		},
 		"ls_source_hist_data_connectionString": {
@@ -19,6 +28,12 @@
 		},
 		"ls_databricks_usgs_data_transformation_properties_typeProperties_existingClusterId": {
 			"value": "0919-033905-zhvlnaw7"
+		},
+		"ls_dl_src_copy_to_sql_properties_typeProperties_url": {
+			"value": "https://dlearthquakeproject.dfs.core.windows.net/"
+		},
+		"ls_hist_data_properties_typeProperties_url": {
+			"value": "https://dlearthquakeproject.dfs.core.windows.net/"
 		},
 		"ls_raw_usgs_properties_typeProperties_url": {
 			"value": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/"
