@@ -1,0 +1,58 @@
+{
+	"name": "ds_sql_historical_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sink_processed_usgs_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Title",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Latitude",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "Longitude",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "Depth",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Magnitude",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "date",
+				"type": "nvarchar"
+			},
+			{
+				"name": "time_of_day",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "place_name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "earthquake_db",
+			"table": "historical_data"
+		}
+	}
+}

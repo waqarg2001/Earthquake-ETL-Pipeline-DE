@@ -1,0 +1,54 @@
+{
+	"name": "ds_src_processed_usgs_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_dl_src_copy_to_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "*.parquet",
+				"folderPath": "usgs_data",
+				"fileSystem": "processed"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "date",
+				"type": "UTF8"
+			},
+			{
+				"name": "time_of_day",
+				"type": "UTF8"
+			},
+			{
+				"name": "place_name",
+				"type": "UTF8"
+			},
+			{
+				"name": "longitude",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "latitude",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "depth",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "magnitude",
+				"type": "UTF8"
+			},
+			{
+				"name": "title",
+				"type": "UTF8"
+			}
+		]
+	}
+}

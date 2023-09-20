@@ -59,6 +59,94 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "historical_data nb",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "copy data historical to dl",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/greedygenie01@gmail.com/earthquake-etl-pipeline/databricks notebooks/2. Transformations/2. Transforming Historical Data"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_databricks_usgs_data_transformation",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Copy processed hist_data to sql",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "historical_data nb",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "historical_data",
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_historical_processed",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sql_historical_data",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []

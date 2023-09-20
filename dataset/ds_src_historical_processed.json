@@ -1,0 +1,53 @@
+{
+	"name": "ds_src_historical_processed",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_hist_data",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "historical_data",
+				"fileSystem": "processed"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Title",
+				"type": "UTF8"
+			},
+			{
+				"name": "Latitude",
+				"type": "UTF8"
+			},
+			{
+				"name": "Longitude",
+				"type": "UTF8"
+			},
+			{
+				"name": "Depth",
+				"type": "UTF8"
+			},
+			{
+				"name": "Magnitude",
+				"type": "UTF8"
+			},
+			{
+				"name": "date",
+				"type": "UTF8"
+			},
+			{
+				"name": "time_on_day",
+				"type": "UTF8"
+			},
+			{
+				"name": "place_name",
+				"type": "UTF8"
+			}
+		]
+	}
+}

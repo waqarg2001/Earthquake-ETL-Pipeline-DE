@@ -1,0 +1,58 @@
+{
+	"name": "ds_sink_processed_usgs_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sink_processed_usgs_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"name": "time_of_day",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "place_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "longitude",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "latitude",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "depth",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "magnitude",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "title",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "earthquake_db",
+			"table": "usgs_data"
+		}
+	}
+}
