@@ -81,7 +81,7 @@ To build this project, the following tools were used:
 Following is the architecture of the project.
 
 <p align='center'>
-  <img src='https://github.com/waqarg2001/earthquake-etl-pipeline/blob/main/Resources/architecture.png' height=385 width=1000>
+  <img src='https://github.com/waqarg2001/earthquake-etl-pipeline/blob/main/Resources/architecture.png' height=385 width=1100>
 </p>  
 
 ## Dashboard
